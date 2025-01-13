@@ -1,7 +1,7 @@
 import os
 import subprocess
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 # Set the directory for storing .deb packages
 OUTPUT_BASE_DIR = os.path.expanduser("~/Desktop")
@@ -58,25 +58,21 @@ sudo apt-get install -f -y
         update.message.reply_text(f"Something went wrong: {e}")
 
 def main():
-    # Get the Bot Token from Render's environment variable
+# Get the Bot Token from Render's environment variable
     BOT_TOKEN = os.getenv("BOT_TOKEN")
 
     if not BOT_TOKEN:
         raise ValueError("BOT_TOKEN environment variable is not set.")
+    
+    # Create the Application instance
+    application = Application.builder().token(BOT_TOKEN).build()
 
-    # Create the Updater and pass it the bot's token
-    updater = Updater(BOT_TOKEN)
-
-    # Get the dispatcher to register handlers
-    dispatcher = updater.dispatcher
-
-    # Register the command and message handlers
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_package_request))
+    # Register command and message handlers
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_package_request))
 
     # Start the Bot
-    updater.start_polling()
-    updater.idle()
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
