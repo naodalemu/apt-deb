@@ -1,7 +1,7 @@
 import os
 import subprocess
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
 
 # Set the directory for storing .deb packages
 OUTPUT_BASE_DIR = os.path.expanduser("~/Desktop")
