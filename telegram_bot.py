@@ -69,7 +69,7 @@ def main():
 
     # Register the command and message handlers
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_package_request))
+    dispatcher.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_package_request))
 
     # Start the Bot
     updater.start_polling()
