@@ -58,8 +58,11 @@ sudo apt-get install -f -y
         update.message.reply_text(f"Something went wrong: {e}")
 
 def main():
-    # Bot Token from BotFather
-    BOT_TOKEN = "YOUR_BOT_TOKEN"
+    # Get the Bot Token from Render's environment variable
+    BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+    if not BOT_TOKEN:
+        raise ValueError("BOT_TOKEN environment variable is not set.")
 
     # Create the Updater and pass it the bot's token
     updater = Updater(BOT_TOKEN)
